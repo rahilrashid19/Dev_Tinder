@@ -12,6 +12,21 @@ const validateSignupApi = (req) => {
     throw new Error("Please enter a strong password");
 };
 
+const validatePatchApi = (req) => {
+  const allowedFieldsToUpdate = [
+    "firstName",
+    "lastName",
+    "companyName",
+    "bio",
+    "skills",
+  ];
+  const isUpdateAllowed = Object.keys(req.body).every((field) =>
+    allowedFieldsToUpdate.includes(field)
+  );
+  return isUpdateAllowed;
+};
+
 module.exports = {
   validateSignupApi,
+  validatePatchApi,
 };

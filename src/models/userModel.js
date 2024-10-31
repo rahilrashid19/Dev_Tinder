@@ -29,6 +29,9 @@ const userSchema = new Schema({
     type: String,
     default: "hi there, i am employee at Dunder Mifflin",
   },
+  skills: {
+    type: [String],
+  },
 });
 
 const User = mongoose.model("User", userSchema);

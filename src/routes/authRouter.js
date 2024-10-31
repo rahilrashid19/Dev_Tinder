@@ -3,10 +3,11 @@ const bcrypt = require("bcrypt");
 const { validateSignupApi } = require("../validators/validations");
 const jwt = require("jsonwebtoken");
 const { User } = require("../models/userModel");
+const { userAuth } = require("../middleware/userAuth");
 
 const authRouter = express.Router();
 
-authRouter.post("/api/signup", async (req, res) => {
+authRouter.post("/api/signup", userAuth, async (req, res) => {
   try {
     validateSignupApi(req);
     const { firstName, lastName, email, password } = req.body;
@@ -45,6 +46,13 @@ authRouter.post("/api/login", async (req, res) => {
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
+});
+
+authRouter.post("/api/logout", async (req, res) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+  });
+  res.status(200).send({ message: " Logged out successfully" });
 });
 
 module.exports = {
